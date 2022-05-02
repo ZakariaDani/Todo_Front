@@ -62,21 +62,22 @@ export class ApiService {
 
   register(username: string, password: string) {
     return this.http
-      .post(`${this.API_URL}/auth/register`, 
-      { username, password },
-      )
-      .subscribe(() => {
-        this.toast
-          .success('Register successful, please logIn...', '', {
-            timeOut: 700,
-            positionClass: 'toast-top-center',
-          })
-          .onHidden.subscribe(() => {
-            this.router.navigateByUrl('/').then();
-          });
-      }, () => {
-        this.toast.error('User already exists !', '', {timeOut: 1000})
-      });
+      .post(`${this.API_URL}/auth/register`, { username, password })
+      .subscribe(
+        () => {
+          this.toast
+            .success('Register successful, please logIn...', '', {
+              timeOut: 700,
+              positionClass: 'toast-top-center',
+            })
+            .onHidden.subscribe(() => {
+              this.router.navigateByUrl('/').then();
+            });
+        },
+        () => {
+          this.toast.error('User already exists !', '', { timeOut: 1000 });
+        }
+      );
   }
 
   logout() {
@@ -92,11 +93,12 @@ export class ApiService {
   }
 
   createTodo(title: string, description: string) {
-    return this.http.post(
-      `${this.API_URL}/todos`,
-      { title, description },
-      { headers: { Authorization: `Bearer ${this.token}` } }
-    );
+    return this.http
+      .post(
+        `${this.API_URL}/todos`,
+        { title, description },
+        { headers: { Authorization: `Bearer ${this.token}` } }
+      );
   }
 
   updateStatus(statusValue: string, todoId: number) {
@@ -120,14 +122,15 @@ export class ApiService {
     return this.http
       .delete(`${this.API_URL}/todos/${todoId}`, {
         headers: { Authorization: `Bearer ${this.token}` },
-      })
-      .pipe(
+      }).pipe(
         tap((res) => {
-          //@ts-ignore
-          if (res.sucsess) {
-            this.toast.success('todo deleted successfully');
+          if (res) {
+            this.toast.success('Todo deleted...', '', {
+              timeOut: 1000,
+            });
           }
         })
       );
+      
   }
 }
