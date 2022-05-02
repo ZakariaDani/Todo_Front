@@ -15,9 +15,9 @@
         </div>
         <div class="d-flex justify-content-around icons align-items-center" style="width: 100px;" *ngIf="!showMenu">
             <div class="px-2">
-                <h3>Welcome, Tom</h3>
+                <h3>Welcome, {{username | titlecase}}</h3>
             </div>
-            <mat-icon>logout</mat-icon>
+            <mat-icon (click)="logout()">logout</mat-icon>
         </div>
     </div>
 </mat-toolbar>
